@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cqut.yook.entity.studentMapper">
+	<!-- 
+	多对一处理有两种方式:
+	1.按结果嵌套处理
+	2.按查询嵌套处理
+	 -->
+	 
+	 <!-- 
+	 按结果嵌套处理：
+	
+	<select id="getStudents" resultMap="StudentTeacher">
+		SELECT s.id sid,s.name sname,s.tid stid,t.id tid,t.name tname
+		FROM student s,teacher t 
+		WHERE s.tid = t.id
+	</select>
+	<resultMap type="Student" id="StudentTeacher">
+	<id column="sid" property="id"/>
+		<result column="sname" property="name"/>
+		<association property="teacher" javaType="Teacher">
+			<id column="tid" property="id"/>
+			<result column="tname" property="name"/>
+		</association>
+	</resultMap>
+	  -->
+	  
+	<!-- 按查询嵌套处理 -->
+	<select id="getStudents" resultMap="StudentTeacher">
+		SELECT * FROM student
+	</select>
+	<resultMap type="Student" id="StudentTeacher">
+		<association property="teacher" column="tid" javaType="Teacher" select="cqut.yook.entity.teacherMapper.getTeacher">
+		</association>
+	</resultMap>
+	
+</mapper>

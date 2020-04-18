@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 
+ 	namespace命名空间 防止sql语句的id重复
+  	namespace命名 包名+类名+Mapper/包名+mapper文件名
+  	parameterType 指的是	sql语句参数类型
+  	resultType 指的是	  返回结果类型
+  	useGenerateKeys="true"使用自增主键 搭配keyProperty可以获取sql插入数据的id值。
+  -->
+<mapper namespace="cqut.yook.entity.AccountMapper">
+	<!-- 
+		查询单个用户
+		id在该文件中 唯一	
+	 -->	 
+	<select id="selectAccount" resultType="Account">
+		SELECT * FROM account
+		WHERE id = #{id}
+	</select>
+	<select id="selectAllAccount" parameterType="Map"
+		resultType="Account">
+		SELECT * FROM account 
+		LIMIT #{startIndex},#{pageSize}
+	</select>
+	<select id="getAllAccount" resultType="Account">
+		SELECT * FROM account 
+	</select>
+	<update id="updateAccount" parameterType="cqut.yook.entiy.Account">
+		UPDATE account SET name=#{name},balance=#{balance} WHERE id=#{id}
+	</update>
+	<insert id="insertAccount" parameterType="cqut.yook.entiy.Account" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO account(name,balance) VALUES(#{name},#{balance})
+	</insert>
+	<delete id="deleteAccount">
+		DELETE FROM account WHERE id=#{id}
+	</delete>
+</mapper>
